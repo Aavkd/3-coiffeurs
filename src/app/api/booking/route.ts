@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { bookingSchema } from '@/lib/validations/booking'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const serviceLabels: Record<string, string> = {
   'coupe-homme':  'Coupe Homme (12 €)',
   'coupe-enfant': 'Coupe Enfant (10 €)',
@@ -37,6 +35,7 @@ export async function POST(request: NextRequest) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://3coiffeurs.fr'
   const domain = new URL(siteUrl).hostname
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   try {
     await resend.emails.send({
